@@ -1,7 +1,14 @@
 
 UI Test Framework
 ===========
+Package for Testing Browser User interfaces.
 
+Installation
+===========
+      pip install uitestframework-Joshuacruzc
+
+Usage
+===========
 The UI Test Framework provides a base for creating browser based UI tests by using the Page Object Model and selenium
  webdriver. You might find
 it most useful for testing web application in development in which the UI is continually being changed. Typical usage
