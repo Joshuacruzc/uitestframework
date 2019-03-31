@@ -96,6 +96,17 @@ class BaseElement:
             raise Exception("Element with locator " + self.locator[1] + " not found in " + urlparse(
                 self.driver.current_url).path) from e
 
+    def is_rendered(self, **kwargs):
+        """
+        :param kwargs:
+        :return: Boolean: True if selenium can find this element, false otherwise
+        """
+        try:
+            self.find(**kwargs)
+            return True
+        except:
+            return False
+
     def click(self, **kwargs):
         """
         Clicks on the found UI element
@@ -103,6 +114,18 @@ class BaseElement:
         """
         el = self.find(**kwargs)
         el.click()
+
+    def get_text(self, **kwargs):
+        """
+        "returns current Text of element
+        :return:String value
+        """
+        el = self.find(**kwargs)
+        if el:
+            if el.tag_name != 'input' and el.tag_name != 'textarea':
+                return el.text
+            else:
+                return el.get_attribute('value')
 
 
 class FieldElement(BaseElement):
@@ -130,3 +153,4 @@ class FieldElement(BaseElement):
                 el.send_keys(keys)
             else:
                 el.send_keys(self.default)
+

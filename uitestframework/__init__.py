@@ -9,6 +9,8 @@ from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriv
 
 from uitestframework.pom import PageObjectModel
 
+name = "uitestframework"
+
 
 class UIListener(AbstractEventListener):
     """
@@ -29,9 +31,10 @@ class UITestCaseMixin:
     """
     def setUp(self):
         self.assertTrue(hasattr(self, 'driver_path'),
-                        'driver_path attribute must bet set for all instances of UITestCase.'
+                        'driver_path attribute must bet set for all classes inheriting from UITestCaseMixin.'
                         ' Drivers can be downloaded at https://www.seleniumhq.org/download/')
-        self.assertTrue(hasattr(self, 'pom'), 'pom attribute must be set for all instances o UITestCase')
+        self.assertTrue(hasattr(self, 'pom'), 'pom attribute must be set for all '
+                                              'classes inheriting from UITestCaseMixin')
         self.assertTrue(isinstance(self.pom, PageObjectModel), 'pom attribute must an instance of PageObjectModel')
 
         # Instantiates driver using selected browser. Defaults to chrome
