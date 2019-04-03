@@ -4,8 +4,8 @@ with open("README.txt", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="uitestframework-Joshuacruzc",
-    version="0.0.0",
+    name="uitestframework",
+    version="0.0.1",
     author="Joshua Cruz",
     author_email="joshua.cruz15@upr.edu",
     description="A small package for UI testing in web applications.",
