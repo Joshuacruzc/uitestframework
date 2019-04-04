@@ -4,6 +4,9 @@ joshua.cruz15@upr.edu
 Package for automatic ui testing using selenium webdriver
 """
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.opera.options import Options as OperaOptions
 from selenium.webdriver.support.abstract_event_listener import AbstractEventListener
 from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver
 
@@ -38,19 +41,33 @@ class UITestCaseMixin:
         self.assertTrue(isinstance(self.pom, PageObjectModel), 'pom attribute must an instance of PageObjectModel')
 
         # Instantiates driver using selected browser. Defaults to chrome
+        options = self.get_options()
         if hasattr(self, 'browser') and not self.browser == 'chrome':
             if self.browser == 'firefox':
-                self.driver = webdriver.Firefox(executable_path=self.driver_path)
+                self.driver = webdriver.Firefox(executable_path=self.driver_path, firefox_options=options)
             elif self.browser == 'opera':
-                self.driver = webdriver.Opera(executable_path=self.driver_path)
-            elif self.browser == 'internet_explorer':
-                self.driver = webdriver.Ie(executable_path=self.driver_path)
-            elif self.browser == 'safari':
-                self.driver = webdriver.Safari(executable_path=self.driver_path)
+                self.driver = webdriver.Opera(executable_path=self.driver_path, options=options)
         else:
-            self.driver = webdriver.Chrome(executable_path=self.driver_path)
+            self.driver = webdriver.Chrome(executable_path=self.driver_path, chrome_options=options)
         self.driver = EventFiringWebDriver(self.driver, UIListener(self.pom))
 
+    def get_options(self):
+        """
+        Used to provide options for selenium drivers
+        :return: Option object for particular browser
+        """
+        options_dict = {
+            'chrome': ChromeOptions,
+            'firefox': FirefoxOptions,
+            'opera': OperaOptions,
+        }
+        key = self.browser if hasattr(self, 'browser') else 'chrome'
+        options = options_dict[key]()
+        if hasattr(self, 'options'):
+            for opt in self.options:
+                options.add_argument(opt)
+        return options
 
-__version__ = '0.0.0'
+
+__version__ = '0.0.2'
 
